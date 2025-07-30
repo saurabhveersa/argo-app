@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: django-kube-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/saurabhveersa/django-kube-app-helm.git
+    targetRevision: HEAD
+    path: django-kube-app
+    helm:
+      valueFiles:
+        - values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: django-kube-ns
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
