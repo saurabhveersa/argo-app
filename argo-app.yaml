@@ -4,18 +4,17 @@ metadata:
   name: django-kube-app
   namespace: argocd
 spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: django-kube-app
   project: default
   source:
     repoURL: https://github.com/saurabhveersa/django-kube-app-helm.git
     targetRevision: HEAD
-    path: django-kube-app
-    helm:
-      valueFiles:
-        - values.yaml
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: django-kube-ns
+    path: django-kube-app-chart         # ✅ Make sure this folder exists in your repo
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
